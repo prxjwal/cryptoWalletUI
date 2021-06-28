@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 // import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(MyApp());
@@ -39,7 +41,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    String dropdownValue = 'INR';
+    String dropdownValue = 'USD';
 
 
   @override
@@ -49,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       
        body: Container(
          
-         color: Colors.blue,
+         color: Colors.blue.withOpacity(0.8),
          child:Column(
            mainAxisAlignment: MainAxisAlignment.start,
            crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                decoration: BoxDecoration(
                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30) ,topRight:Radius.circular(30) ),
-                 color: Colors.white,
+                 color: Colors.white.withOpacity(0.9),
                ),
                height: 468,
                child: Column(
@@ -135,9 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
                            shrinkWrap: true,
                          padding: const EdgeInsets.all(8),
                          children: <Widget>[
-                           Card(),
-                           Card(),
-                           Card(),
+                           Card(image: "images/bitcoin.png",coin: "Bitcoin",coinVal:"2.73 BTC",coinPer:"+125(7%)"),
+                           Card(image: "images/ethereum.png",coin:"Ethereum",coinVal:"2.73 ETH",coinPer:"+110(5.4%)"),
+                           Card(image: "images/monero.png",coin:"Monero",coinVal:"2.73 MNO",coinPer:"+93(3.2%)"),
                
                              
                            ],
@@ -158,9 +160,12 @@ class _MyHomePageState extends State<MyHomePage> {
                            scrollDirection: Axis.vertical,
                
                            children: [
-                             Transaction(),
-                             Transaction(),
-                             Transaction(),
+                             Transaction(image: "images/left-down.png",color: Colors.red,title: "Car service",date: "14 March 2021",amount: "+\$200",),
+                             Transaction(image: "images/right-up.png",color: Colors.green,title: "Trading",date: "13 March 2021",amount: "+\$8000",),
+                             Transaction(image: "images/right-up.png",color: Colors.green,title: "Insurance",date: "13 March 2021",amount: "+\$100",),
+                             Transaction(image: "images/left-down.png",color: Colors.red,title: "Medic bills",date: "12 March 2021",amount: "-\$100",),
+                             Transaction(image: "images/right-up.png",color: Colors.green,title: "Income",date: "10 March 2021",amount: "+\$600",),
+                             
                            ],
                          ),
                        )
@@ -179,10 +184,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// ignore: must_be_immutable
 class Transaction extends StatelessWidget {
-  const Transaction({
-    Key? key,
-  }) : super(key: key);
+
+  Transaction({required this.image,required this.color,required this.title,required this.date,required this.amount});
+  String image;
+  Color color;
+  String title;
+  String date;
+  String amount;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -194,18 +206,24 @@ class Transaction extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Container(color: Colors.amber,height: 65,width: 55,),
+            child: Container(height: 45,width: 35,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.05),
+              borderRadius: BorderRadius.all(Radius.circular(5))
+            ),
+            child: Image.asset(image,color: color,),),
           ),
 
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Income",style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 20),),
-              Text("March 31,2021",style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 11),)
+              Text(title,style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 20),),
+              Text(date,style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 11),)
             ],
           ),
 
-          Text("\$456",style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 16),),
+          Text(amount,style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 16),),
 
         ],
       ),
@@ -220,12 +238,17 @@ class Transaction extends StatelessWidget {
 
 
 
-
-
+// ignore: must_be_immutable
 class Card extends StatelessWidget {
-  const Card({
-    Key? key,
-  }) : super(key: key);
+  
+  Card({required this.image, required this.coin,required this.coinVal,required this.coinPer});
+
+  String image;
+  String coin;
+  String coinVal;
+  String coinPer;
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +258,7 @@ class Card extends StatelessWidget {
       width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10),),
-        color: Colors.blueGrey,
+        color: Colors.black.withOpacity(0.050),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,22 +268,22 @@ class Card extends StatelessWidget {
             child: Container(
               height: 50,
               width: 45,
-              color: Colors.amber,
+              child: Image.asset(image),
             ),
           ),
 
 
           Padding(
             padding: const EdgeInsets.only(top: 10,left: 30),
-            child: Text("Bitcoin",style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 18),),
+            child: Text(coin,style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 18),),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 30),
-            child: Text("2.73 BTC",style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13),),
+            child: Text(coinVal,style: Theme.of(context).textTheme.headline3!.copyWith(fontSize: 13),),
           ),
           Padding(
           padding: const EdgeInsets.only(top: 8,left: 30),
-            child: Text("+125(%7%)",style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 13),),
+            child: Text(coinPer,style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 13),),
           ),
           
                   ],
